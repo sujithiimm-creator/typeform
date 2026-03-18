@@ -1,0 +1,9 @@
+{
+  "name": "engage-form",
+  "version": "1.0.0",
+  "description": "EngageForm - A Vercel Ready application",
+  "scripts": {
+    "start": "npx serve ."
+  },
+  "dependencies": {}
+}
