@@ -19,6 +19,13 @@ import { informationModule } from "./modules/information";
  * module under lib/questions/modules/<type>.tsx exporting a QuestionModule,
  * then add one line here. Nothing else in the app needs to change.
  */
+// Each module is internally type-safe for its own question type (see
+// lib/questions/modules/*). The registry itself is necessarily
+// heterogeneous — TS has no sound way to express "a map of covariant
+// component modules keyed by discriminant" — so we widen at this single
+// boundary and rely on getQuestionModule's generic to recover the specific
+// type at every call site.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const questionRegistry: Record<QuestionType, QuestionModule<any>> = {
   yes_no: yesNoModule,
   single_choice: singleChoiceModule,

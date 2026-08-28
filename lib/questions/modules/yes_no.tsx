@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { YesNoQuestion } from "@/lib/types";
 import type { QuestionModule } from "../types";
 
-function Renderer({ question, value, onChange, onSubmit, disabled, accentColor }: import("../types").RendererProps<YesNoQuestion>) {
+function Renderer({ value, onChange, onSubmit, disabled, accentColor }: import("../types").RendererProps<YesNoQuestion>) {
   return (
     <div className="flex gap-4">
       {(["yes", "no"] as const).map((opt) => (

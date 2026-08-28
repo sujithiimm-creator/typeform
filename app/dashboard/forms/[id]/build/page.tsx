@@ -33,6 +33,7 @@ export default function BuilderPage({ params }: { params: Promise<{ id: string }
 
   useEffect(() => {
     if (schema && !activeQuestionId && schema.questions.length > 0) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setActiveQuestionId([...schema.questions].sort((a, b) => a.position - b.position)[0].id);
     }
   }, [schema, activeQuestionId]);

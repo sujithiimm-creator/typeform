@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import type { EmailQuestion } from "@/lib/types";
-import type { EditorProps, QuestionModule, RendererProps } from "../types";
+import type { QuestionModule, RendererProps } from "../types";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 

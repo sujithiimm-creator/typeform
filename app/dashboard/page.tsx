@@ -52,6 +52,9 @@ export default function DashboardPage() {
   }
 
   useEffect(() => {
+    // Fetch-on-mount data loading; loadForms is also reused as an event
+    // handler after create/duplicate/delete actions.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadForms();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -6,7 +6,7 @@ import { rowToSchema, type FormRow } from "@/lib/forms/mapper";
 import type { FormSchema } from "@/lib/types";
 
 export function useForm(formId: string) {
-  const supabase = useRef(createClient()).current;
+  const [supabase] = useState(() => createClient());
   const [schema, setSchema] = useState<FormSchema | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import type { FormSchema } from "@/lib/types";
+import type { AnswerValue, FormSchema } from "@/lib/types";
 import { useRespondent } from "@/lib/respondent/useRespondent";
 import { getQuestionModule } from "@/lib/questions/registry";
 import { Button } from "@/components/ui/button";
@@ -132,7 +132,7 @@ function QuestionScreen({
 }: {
   question: NonNullable<ReturnType<typeof useRespondent>["currentQuestion"]>;
   value: unknown;
-  onChange: (v: any) => void;
+  onChange: (v: AnswerValue) => void;
   onSubmit: () => void;
   error: string | null;
   accentColor: string;

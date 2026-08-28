@@ -29,6 +29,7 @@ export function useRespondent({ schema, preview = false }: UseRespondentOptions)
   );
 
   const sessionIdRef = useRef<string>("");
+  const [sessionId, setSessionId] = useState("");
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [stage, setStage] = useState<RespondentStage>(schema.theme.welcomeScreen.enabled ? "welcome" : "question");
   const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(null);
@@ -36,29 +37,40 @@ export function useRespondent({ schema, preview = false }: UseRespondentOptions)
   const [history, setHistory] = useState<string[]>([]);
   const startedRef = useRef(false);
 
-  // Resume progress (real mode only).
+  // Resume progress from localStorage (real mode only) — this syncs React
+  // state from an external system (browser storage) on mount, which is
+  // exactly the "subscribe to an external system" case effects are for.
+  /* eslint-disable react-hooks/set-state-in-effect --
+     This effect's whole job is syncing React state from an external system
+     (localStorage) on mount, which is exactly the "subscribe to updates
+     from an external system" case the rule's own guidance carves out. */
   useEffect(() => {
     if (preview) {
       const first = getFirstQuestion(schema, {});
-      setCurrentQuestionId(first?.id ?? null);
       sessionIdRef.current = "preview";
+      setSessionId("preview");
+      setCurrentQuestionId(first?.id ?? null);
       return;
     }
     const saved = loadProgress(schema.id);
     if (saved) {
       sessionIdRef.current = saved.sessionId;
+      setSessionId(saved.sessionId);
       setAnswers(saved.answers);
       if (saved.currentQuestionId) {
         setStage("question");
         setCurrentQuestionId(saved.currentQuestionId);
       }
     } else {
-      sessionIdRef.current = nanoid(21);
+      const id = nanoid(21);
+      sessionIdRef.current = id;
+      setSessionId(id);
       const first = getFirstQuestion(schema, {});
       setCurrentQuestionId(first?.id ?? null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [schema.id, preview]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   // Persist progress locally whenever it changes (real mode only).
   useEffect(() => {
@@ -154,6 +166,6 @@ export function useRespondent({ schema, preview = false }: UseRespondentOptions)
     begin,
     goNext,
     goBack,
-    sessionId: sessionIdRef.current,
+    sessionId,
   };
 }
