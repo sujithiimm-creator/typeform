@@ -1,2 +1,0 @@
-# typeform
-Typeform Alternative
