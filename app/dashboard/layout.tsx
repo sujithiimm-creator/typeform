@@ -1,9 +1,13 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { SupabaseNotConfigured } from "@/components/supabase-not-configured";
 import { LogoutButton } from "./logout-button";
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
+  if (!isSupabaseConfigured()) return <SupabaseNotConfigured />;
+
   const supabase = await createClient();
   const {
     data: { user },
